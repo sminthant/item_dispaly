@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Item Display</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 40px 20px;
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #3a3a3a;
+      color: #111;
+    }
+
+    .container {
+      max-width: 520px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 28px 32px 24px;
+    }
+
+    h1 {
+      margin: 0 0 18px;
+      font-size: 2rem;
+      font-weight: 700;
+    }
+
+    #itemSelect {
+      width: 100%;
+      max-width: 320px;
+      padding: 8px 10px;
+      margin-bottom: 18px;
+      border: 1px solid #111;
+      border-radius: 6px;
+      font-size: 1rem;
+      background-color: #ffffff;
+    }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #d0d0d0;
+      margin: 0 0 16px;
+    }
+
+    .detail-row {
+      display: flex;
+      margin-bottom: 10px;
+      font-size: 1rem;
+    }
+
+    .detail-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .detail-label {
+      width: 140px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    .detail-value {
+      flex: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Item Display</h1>
+
+    <select id="itemSelect">
+      <option value=""></option>
+    </select>
+
+    <hr class="divider">
+
+    <div class="detail-row">
+      <div class="detail-label">ID</div>
+      <div class="detail-value" id="itemId"></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Name</div>
+      <div class="detail-value" id="itemName"></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Category</div>
+      <div class="detail-value" id="itemCategory"></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">Inventory Amt.</div>
+      <div class="detail-value" id="itemInventory"></div>
+    </div>
+
+    <div class="detail-row">
+      <div class="detail-label">List price</div>
+      <div class="detail-value" id="itemPrice"></div>
+    </div>
+  </div>
+
+  <script>
+    const items = [
+      { id: 1, name: "Mouse", category: "electronic", inventoryAmt: 50, listPrice: 25.99 },
+      { id: 2, name: "Keyboard", category: "electronic", inventoryAmt: 30, listPrice: 89.99 },
+      { id: 3, name: "Monitor", category: "electronic", inventoryAmt: 20, listPrice: 299.99 },
+      { id: 4, name: "USB Cable", category: "gadget", inventoryAmt: 100, listPrice: 9.99 },
+      { id: 5, name: "Notebook", category: "Stationery", inventoryAmt: 500, listPrice: 55 },
+      { id: 6, name: "Pen", category: "Stationery", inventoryAmt: 200, listPrice: 3.5 },
+      { id: 7, name: "Desk Lamp", category: "household", inventoryAmt: 25, listPrice: 35.0 },
+      { id: 8, name: "Water Bottle", category: "consumption", inventoryAmt: 80, listPrice: 12.0 },
+      { id: 9, name: "Backpack", category: "gadget", inventoryAmt: 15, listPrice: 45.0 },
+      { id: 10, name: "Phone Stand", category: "gadget", inventoryAmt: 40, listPrice: 15.99 },
+      { id: 11, name: "Headphones", category: "electronic", inventoryAmt: 35, listPrice: 79.99 }
+    ];
+
+    const itemSelect = document.getElementById("itemSelect");
+    const itemId = document.getElementById("itemId");
+    const itemName = document.getElementById("itemName");
+    const itemCategory = document.getElementById("itemCategory");
+    const itemInventory = document.getElementById("itemInventory");
+    const itemPrice = document.getElementById("itemPrice");
+
+    function clearDetails() {
+      itemId.textContent = "";
+      itemName.textContent = "";
+      itemCategory.textContent = "";
+      itemInventory.textContent = "";
+      itemPrice.textContent = "";
+    }
+
+    function displayItem(item) {
+      itemId.textContent = item.id;
+      itemName.textContent = item.name;
+      itemCategory.textContent = item.category;
+      itemInventory.textContent = item.inventoryAmt;
+      itemPrice.textContent = item.listPrice;
+    }
+
+    function populateSelectOptions() {
+      items.forEach(function (item) {
+        const option = document.createElement("option");
+        option.value = item.id;
+        option.textContent = item.name;
+        itemSelect.appendChild(option);
+      });
+    }
+
+    function handleSelectionChange() {
+      const selectedId = itemSelect.value;
+
+      if (selectedId === "") {
+        clearDetails();
+        return;
+      }
+
+      const selectedItem = items.find(function (item) {
+        return String(item.id) === selectedId;
+      });
+
+      if (selectedItem) {
+        displayItem(selectedItem);
+      } else {
+        clearDetails();
+      }
+    }
+
+    populateSelectOptions();
+    itemSelect.value = "";
+    clearDetails();
+    itemSelect.addEventListener("change", handleSelectionChange);
+  </script>
+</body>
+</html>
